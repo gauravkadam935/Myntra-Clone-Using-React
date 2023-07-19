@@ -1,0 +1,17 @@
+
+.main-section{
+    margin: 2%;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-auto-flow: row;
+    gap: 2%;
+}
+.checkoutpage-div{
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid gray;
+    background-color: white;
+}
+.card-div{
+    display: flex;
+}
