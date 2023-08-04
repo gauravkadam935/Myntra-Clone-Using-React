@@ -17,6 +17,7 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Badge from "@mui/material/Badge";
 
 
 import myntra from "../../assets/myntra.ico";
@@ -24,7 +25,7 @@ import { NavLink } from "react-router-dom";
 import { Chip } from "@mui/material";
 const settings = ["Logout"];
 
-function Navbar({count, profilePhoto }) {
+function Navbar({count, profilePhoto ,loggedOut,loggedin}) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -33,6 +34,7 @@ function Navbar({count, profilePhoto }) {
   };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
+    
   };
 
   const handleCloseNavMenu = () => {
@@ -41,9 +43,11 @@ function Navbar({count, profilePhoto }) {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+    loggedOut();
   };
-
+ 
   return (
+    <Box sx={{flexGrow: 1}}>
     <AppBar position="static" sx={{ bgcolor: "white", color: "black" }}>
       <Container maxWidth="xl" >
         <Toolbar disableGutters sx={{display:'flex',justifyContent:'space-between'}}>
@@ -65,7 +69,7 @@ function Navbar({count, profilePhoto }) {
             >
               <Avatar alt="Remy Sharp" src={myntra} />
             </Typography>
-            <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+            {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
             <Typography
               variant="h5"
               noWrap
@@ -82,16 +86,16 @@ function Navbar({count, profilePhoto }) {
                 textDecoration: "none",
               }}
             >
-              Logo
+              <Avatar alt="Remy Sharp" src={myntra} />
             </Typography>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Open settings" >
               <IconButton
                 onClick={handleOpenUserMenu}
                 sx={{ p: 0, marginLeft: 2 }}
               >
-                {!profilePhoto ? (
+                {!loggedin ? (
                   <Avatar>
                     <AccountCircleIcon />
                   </Avatar>
@@ -101,17 +105,15 @@ function Navbar({count, profilePhoto }) {
               </IconButton>
             </Tooltip>
             <NavLink to="/addcart">
-              <Typography variant="div">
-                <IconButton type="button" sx={{ p: "10px" }}>
+              <IconButton
+                size="large"
+                aria-label="show 17 new notifications"
+              
+              >
+                <Badge badgeContent={count} color="error">
                   <ShoppingBagOutlinedIcon fontSize="large" />
-                  <Chip
-                    label={count}
-                    variant="outlined"
-                    size="small"
-                    sx={{ bgcolor: "#F31559", color: "white" }}
-                  />
-                </IconButton>
-              </Typography>
+                </Badge>
+              </IconButton>
             </NavLink>
 
             <Menu
@@ -140,6 +142,7 @@ function Navbar({count, profilePhoto }) {
         </Toolbar>
       </Container>
     </AppBar>
+    </Box>
   );
 }
 export default Navbar;

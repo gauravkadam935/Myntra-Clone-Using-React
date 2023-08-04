@@ -7,17 +7,22 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-const CheckOutPage = ({ cart, count }) => {
+const CheckOutPage = ({ cart, count , clearProducts  }) => {
   const totalPrice = cart.reduce(
     (total, product) => total + product.price * product.count,
     0
   );
   const additionalCharges = totalPrice + 10;
   const handleClick = () => {};
+
+  const clear = ()=>{
+    clearProducts();
+  }
   return (
     <>
       <div className="checkoutpage-div">
-        <Card sx={{ maxWidth: 345 }}>
+        
+        <Card>
           <CardContent>
             <Typography gutterBottom variant="h4" fontWeight="700" component="div">
               Check-Out
@@ -41,34 +46,11 @@ const CheckOutPage = ({ cart, count }) => {
             </Typography>
           </CardContent>
           <CardActions>
-          <NavLink to="/payment">
-                <div className="button-div">
-                    <Button variant="contained" sx={{bgcolor:"#F31559"}} id="pay-button" onClick={handleClick}>CheckOut</Button>
-                </div>
-                </NavLink>
+            <NavLink to="/payment">
+            <Button variant="contained" sx={{bgcolor:"#F31559",mr:"2"}} id="pay-button" onClick={handleClick}>CheckOut</Button>
+          </NavLink>
           </CardActions>
         </Card>
-        {/* <div className="head-div">
-                    <h1>Payment Method</h1>
-                </div>
-                <div className="totalprice-div">
-                    <div>SubTotal</div>
-                    <div>${totalPrice}</div>
-                </div>
-                <div className="cardNumber-div">
-                <div>Estimated Dilivery Charges</div>
-                    <div>$10</div>
-                </div>
-                <div className="total">Toral:${additionalCharges}</div>
-                <div className="checkbox-div">
-                    
-                <span>I have read and accept the terms and conditions</span>
-                </div>
-                <NavLink to="/payment">
-                <div className="button-div">
-                    <Button variant="contained" sx={{bgcolor:"#F31559"}} id="pay-button" onClick={handleClick}>CheckOut</Button>
-                </div>
-                </NavLink> */}
       </div>
     </>
   );

@@ -12,7 +12,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 
 export default function AddCart(props) {
-    const {title,id,price,description,image,rating,rate,category, count,onClick,buyItem,increaseProduct,decreaseProduct} = props;
+    const {title,id,price,description,image,rating,rate,category, count,onClick,buyItem,increaseProduct,decreaseProduct,message} = props;
 
     
     const deleteFunction=()=>{
@@ -31,8 +31,9 @@ export default function AddCart(props) {
   const theme = useTheme();
 
   return (
-    <Card sx={{ display: 'flex', boxShadow: 5,marginBottom:3 }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+    <Card sx={{ display: 'flex', boxShadow: 5,margin:3,justifyContent:'space-between' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column'}}>
+      
         <CardContent sx={{ flex: '1 0 auto' }}>
           <Typography component="div" variant="h5">
             {title}
@@ -64,12 +65,15 @@ export default function AddCart(props) {
         </CardContent>
         
       </Box>
+      <Box display='flex'>
       <CardMedia
         component="img"
-        sx={{ width: 151 }}
+        sx={{ width: 151,maxHeight:"250px" }}
         image={image}
         alt="img"
       />
+      </Box>
+      
     </Card>
   );
 }

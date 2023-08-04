@@ -1,11 +1,14 @@
 import React from "react";
-import Navbar from "../Component/Navbar/NavBar";
 import Pagination from "./Pagination/Pagination";
 import CardItem from "../Component/Product/Cart";
 import { Routes, Route } from "react-router-dom";
 import { Typography } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
+import NavBar1 from "../Component/Navbar/NavBar1";
+import Loader from "./Loader/Loader";
+// import ResponsiveAppBar from "./ProductPage/ProductPage";
+// import Carousel from "../Component/Crousel/Crouasel";
 
 const Homepage = ({
   filterProducts,
@@ -19,15 +22,20 @@ const Homepage = ({
   buyButton,
   loggedin,
   profilePhoto,
+  loggedOut,
+  loader,
 }) => {
   return (
     <>
+      {loader && <Loader />}
       <div className="homepage">
-        <Navbar
+        <NavBar1
           filterProducts={filterProducts}
           searchProduct={searchProduct}
           count={count}
           profilePhoto={profilePhoto}
+          loggedOut={loggedOut}
+          loggedin={loggedin}
         />
 
         {/* <Carousel/> */}

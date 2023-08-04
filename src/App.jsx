@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
-import Navbar from "./Component/Navbar/NavBar";
 import Pagination from "./Container/Pagination/Pagination";
 import { BrowserRouter, Routes, Route, json } from "react-router-dom";
 import Homepage from "./Container/HomePage";
@@ -27,8 +26,10 @@ function App() {
   const [isActive, setIsActive] = useState(false);
   const cartItems = cart.reduce((items, currItem) => items + currItem.count, 0);
   const [loggedin, setLoggedin] = useState(false);
+  const [loader,setLoader] = useState(false);
 
   const fetchApi = () => {
+    setLoader(true);
     fetch(
       `https://content.newtonschool.co/v1/pr/63b6c911af4f30335b4b3b89/products?limit=10&page=${pageNumber}`
     )
@@ -39,8 +40,11 @@ function App() {
         setApi(data);
         setNewArray(data);
       });
+      setLoader(false);
     setIsActive(true);
+    // fetch(`https://dummyjson.com/products?limit=100`).then((res)=>res.json()).then(data=>console.log(data));
   };
+
   useEffect(() => {
     fetchApi();
   }, [pageNumber]);
@@ -48,6 +52,12 @@ function App() {
   useEffect(() => {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
   }, [cart]);
+
+  useEffect(()=>{
+    if(!loggedin){
+      setProfilePhoto((preValue)=>"");
+    }
+  },[loggedin])
 
   // filter Products by category
   const filterProducts = (category) => {
@@ -116,9 +126,18 @@ function App() {
       setProfilePhoto(mylocations.state.profilePhoto);
     }
   },[mylocations.state]);
+const [message,setMessage]=useState(false);
+  const clearProducts=()=>{
+    setCart([]);
+    setMessage(true);
+  }
 
+  const loggedOut =()=>{
+    setLoggedin(false);
+  }
   return (
     <>
+    
       <div className="main">
           <Routes>
             <Route
@@ -140,6 +159,8 @@ function App() {
                   buyButton={buyButton}
                   loggedin={loggedin}
                   profilePhoto={profilePhoto}
+                  loggedOut={loggedOut}
+                  loader={loader}
                 />
               }
             ></Route>
@@ -156,6 +177,10 @@ function App() {
                   profilePhoto={profilePhoto}
                   increaseProduct={increaseProduct}
                   decreaseProduct={decreaseProduct}
+                  clearProducts={clearProducts}
+                  message={message}
+                  loggedOut={loggedOut}
+                  loggedin={loggedin}
                 />
               }
             ></Route>
