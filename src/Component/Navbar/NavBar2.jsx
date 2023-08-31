@@ -18,7 +18,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Badge from "@mui/material/Badge";
-
+import { useNavigate } from "react-router-dom";
 
 import myntra from "../../assets/myntra.ico";
 import { NavLink } from "react-router-dom";
@@ -26,6 +26,7 @@ import { Chip } from "@mui/material";
 const settings = ["Logout"];
 
 function Navbar({count, profilePhoto ,loggedOut,loggedin}) {
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -134,7 +135,7 @@ function Navbar({count, profilePhoto ,loggedOut,loggedin}) {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  {loggedin?<p>Logout</p>:<p onClick={()=>navigate("/login")}>logIn</p>}
                 </MenuItem>
               ))}
             </Menu>

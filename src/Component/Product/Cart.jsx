@@ -7,12 +7,13 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { NavLink } from "react-router-dom";
+import { Grid } from "@mui/material";
 const CardItem = (props) => {
   const {
     title,
     id,
     price,
-    image,
+    thumbnail,
     rating,
     rate,
     category,
@@ -35,8 +36,9 @@ const CardItem = (props) => {
   return (
     <>
       <div className="card-div" key={id} style={{marginBottom:"20px"}}>
+    
         <Card sx={{
-    maxWidth: 280,
+    width: 280,
     margin: "0 auto",
     padding: "0.1em",
   }}>
@@ -44,23 +46,23 @@ const CardItem = (props) => {
         component="img"
         alt="green iguana"
         height="250"
-        image={image}
-        sx={{ padding: "1em 1em 0 1em", objectFit: "contain" }}
+        image={thumbnail}
+        sx={{objectFit: "contain" }}
       />
           <CardContent>
-            <Typography gutterBottom variant="h7" component="div" height="3" overflow="hidden">
+            <Typography gutterBottom  sx={{width:150,}} noWrap >
               {title}
             </Typography>
             <Typography variant="body2" color="text.secondary">
             ₹{price}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-            ⭐{rating.rate}
+            ⭐{rating}
             </Typography>
           </CardContent>
           <CardActions>
             <NavLink to={loggedin ? "addcart" : "login"}>
-              <Button size="small" onClick={handleClick2} sx={{bgcolor:'#F31559',color:'whitesmoke'}}>
+              <Button size="small" onClick={handleClick2} sx={{bgcolor:'#F31559',color:'whitesmoke',":hover":{bgcolor:"#F31559"}}}>
                 Buy
               </Button>
             </NavLink>

@@ -46,9 +46,9 @@ const CheckOutPage = ({ cart, count , clearProducts  }) => {
             </Typography>
           </CardContent>
           <CardActions>
-            <NavLink to="/payment">
+           { cart?.length>0 ?<NavLink to="/payment">
             <Button variant="contained" sx={{bgcolor:"#F31559",mr:"2"}} id="pay-button" onClick={handleClick}>CheckOut</Button>
-          </NavLink>
+          </NavLink>:<Button variant="contained" sx={{bgcolor:"#F31559",mr:"2"}} id="pay-button" disabled>Select Product Item First</Button>}
           </CardActions>
         </Card>
       </div>

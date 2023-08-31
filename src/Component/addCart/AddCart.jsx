@@ -12,7 +12,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 
 export default function AddCart(props) {
-    const {title,id,price,description,image,rating,rate,category, count,onClick,buyItem,increaseProduct,decreaseProduct,message} = props;
+    const {title,id,price,description,thumbnail,rating,rate,category, count,onClick,buyItem,increaseProduct,decreaseProduct,message} = props;
 
     
     const deleteFunction=()=>{
@@ -31,14 +31,22 @@ export default function AddCart(props) {
   const theme = useTheme();
 
   return (
-    <Card sx={{ display: 'flex', boxShadow: 5,margin:3,justifyContent:'space-between' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column'}}>
+    <Card sx={{display:{xs:"block",md:"flex",lg:"flex",xl:"flex"}, boxShadow: 5,margin:3,gap:3 }}>
+      <Box >
+      <CardMedia
+        component="img"
+        sx={{ width: 250,objectFit: "contain" }}
+        image={thumbnail}
+        alt="img"
+      />
+      </Box>
+      <Box sx={{ display: 'flex', flexDirection: 'column', textAlign:"left"}}>
       
         <CardContent sx={{ flex: '1 0 auto' }}>
           <Typography component="div" variant="h5">
             {title}
           </Typography>
-          <Typography variant="subtitle3" color="text.secondary" component="div">
+          <Typography variant="subtitle3" color="text.secondary" component="div" sx={{width:200}} noWrap>
             {description}
           </Typography>
         </CardContent>
@@ -64,14 +72,6 @@ export default function AddCart(props) {
             </Typography>
         </CardContent>
         
-      </Box>
-      <Box display='flex'>
-      <CardMedia
-        component="img"
-        sx={{ width: 151,maxHeight:"250px" }}
-        image={image}
-        alt="img"
-      />
       </Box>
       
     </Card>

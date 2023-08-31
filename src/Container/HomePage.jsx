@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import NavBar1 from "../Component/Navbar/NavBar1";
 import Loader from "./Loader/Loader";
+import InfiniteScroll from "./Infinite_Scroll/InfiniteScroll";
 // import ResponsiveAppBar from "./ProductPage/ProductPage";
 // import Carousel from "../Component/Crousel/Crouasel";
 
@@ -37,7 +38,7 @@ const Homepage = ({
           loggedOut={loggedOut}
           loggedin={loggedin}
         />
-
+        {/* <InfiniteScroll/> */}
         {/* <Carousel/> */}
         <div className="cards-div">
           {isActive &&
@@ -51,7 +52,7 @@ const Homepage = ({
               />
             ))}
         </div>
-        <Pagination onClick={handlePage} count={pageNumber} />
+        {/* <Pagination onClick={handlePage} count={pageNumber} /> */}
       </div>
     </>
   );

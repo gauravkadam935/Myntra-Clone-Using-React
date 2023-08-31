@@ -18,73 +18,55 @@ import { useNavigate } from "react-router-dom";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../../firebase.js";
 
+
 function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+    return (
+      <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        {'Copyright © '}
+        <Link color="inherit" href="https://mui.com/">
+          Your Website
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
+    );
+  }
 
-// TODO remove, this demo shouldn't need to reset the theme.
+  const defaultTheme = createTheme();
 
-const defaultTheme = createTheme();
-
-export default function Login({ LOGINPASSWORD, LOGIN_KEY, setLoggedin,loginUsers}) {
-    const userName = localStorage.getItem("loginkey");
-  const userPassword = localStorage.getItem("passwordkey");
+const Register = ({userLoginArray}) => {
+   const navigate = useNavigate();
+  const [name,setName]=useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error,setError] = useState(false);
 
-  const navigate = useNavigate();
-    const onLoginClick = () => {
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          console.log("RESULT", result);
-          const profilePhoto = result.user.photoURL;
-          setLoggedin((preValue)=> true);
-          
-          navigate("/", {
-            state: {
-              profilePhoto,
-            },
-          });
-        })
-        .catch((error) => {
-          console.log("ERROR", error);
-        });
-    };
 
+  
+    
     const handleClick = (e) => {
         e.preventDefault();
-        if (email == userName && password == userPassword) {
-          console.log(userName);
-          console.log(userPassword);
-          setLoggedin((preValue)=> true);
-          navigate("/");
+        if (email != "" && password !="" && name!="") {
+          const user = {
+            name: name,
+            email: email,
+            password: password,
+          }
+          userLoginArray(user);
+          navigate("/login");
+        }
+        else {
+          alert("Please fill all the fields");
         }
       };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    loginUsers.map((e)=>{
-      if(e.email == email && e.password == password){
-        console.log(e.email);
-        console.log(e.password);
-        setLoggedin((preValue)=> true);
-        navigate("/");
-      }else{
-        setError(true);
-      }
-    })
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+    });
   };
-
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -97,16 +79,25 @@ export default function Login({ LOGINPASSWORD, LOGIN_KEY, setLoggedin,loginUsers
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: '#F31559' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Register 
           </Typography>
-          {error &&<Typography component="h6" variant="h6" color="red">
-              Incorrect Email Id Or Password
-          </Typography>}
           <Box component="form"noValidate sx={{ mt: 1 }}>
+          <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="Name"
+              name="name"
+              value={name}
+                    onChange={(e) => setName(e.target.value)}
+              autoComplete="name"
+              autoFocus
+            />
             <TextField
               margin="normal"
               required
@@ -138,23 +129,23 @@ export default function Login({ LOGINPASSWORD, LOGIN_KEY, setLoggedin,loginUsers
             <Button
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 ,bgcolor:"#F31559",":hover":{bgcolor:"#F31559"}}}
-              onClick={handleSubmit}
+              sx={{ mt: 3, mb: 2 }}
+              onClick={handleClick}
             >
-              Sign In
+              Register
             </Button>
-            <Button
-              onClick={onLoginClick}
+            {/* <Button
+              onClick={handleSubmit}
               fullWidth
               variant="outlined"
               sx={{ mt: 2, mb: 1}}
             >
               Sign In With Google+
-            </Button>
+            </Button> */}
             <Grid container>
               <Grid item xs>
-                <Link href="/register" variant="body2">
-                  Create An Account
+                <Link href="/login" variant="body2">
+                  Log in
                 </Link>
               </Grid>  
             </Grid>
@@ -164,5 +155,11 @@ export default function Login({ LOGINPASSWORD, LOGIN_KEY, setLoggedin,loginUsers
         <Copyright sx={{ mt: 4, mb: 4 }} />
       </Container>
     </ThemeProvider>
-  );
+    
+  )
 }
+
+export default Register;
+
+
+

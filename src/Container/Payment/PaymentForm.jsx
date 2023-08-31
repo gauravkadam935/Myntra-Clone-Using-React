@@ -8,6 +8,7 @@ import {
   Card,
   CardContent,
   Grid,
+  MenuItem,
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -26,62 +27,107 @@ const INTIALSTATE = {
   monthValidity: "",
   yearValidity: "",
 };
+const MakeYearArray=()=>{
+  const currentYear = new Date().getFullYear();
+const yearArray=[];
+for(let i=currentYear;i<=currentYear+50;i++){
+  yearArray.push(i);
+}
+return yearArray
+}
+const yearArray=MakeYearArray();
+const month = [1,2,3,4,5,6,7,8,9,10,11,12];
 
 export default function PaymentForm({ setCart }) {
   const navigate = useNavigate();
 
-  // const [cardName,setCardName]=useState("");
-  // const [address,setAddress] = useState("");
-  // const [cardNumber,setCardNumber]=useState("");
-  // const [cvv,setCvv]=useState("");
-  // const [monthValidity,setMonthValidity]=useState("");
-  // const [yearValidity,setYearValidity]=useState("");
-  const [formData, setFormData] = useState(INTIALSTATE);
-  const [error, setError] = useState(false);
+  const [cardName,setCardName]=useState("");
+  const [address,setAddress] = useState("");
+  const [cardNumber,setCardNumber]=useState("");
+  const [cvv,setCvv]=useState("");
+  const [monthValidity,setMonthValidity]=useState("");
+  const [yearValidity,setYearValidity]=useState("");
+  // const [formData, setFormData] = useState(INTIALSTATE);
+  const [errors, setErrors] = useState(INTIALSTATE);
   const [open, setOpen] = React.useState(false);
-console.log(formData);
-  const handleChange = (e) => {
-    const value = e.target.value;
-    const id = e.target.id;
+// console.log(formData);
+  
+    // if (id == "cardname") 
+    // if (id == "address") (value);
+    // if (id == "cardnumber") (value);
+    // if (id == "cvv") (value);
+    // if (id == "monthexpiry") (value);
+    // if (id == "yearexpiry") (value);
+  
 
-    setFormData((obj)=>({
-      ...obj,
-      [id]:value,
-    }))
-    // if (id == "cardname") setCardName(value);
-    // if (id == "address") setAddress(value);
-    // if (id == "cardnumber") setCardNumber(value);
-    // if (id == "cvv") setCvv(value);
-    // if (id == "monthexpiry") setMonthValidity(value);
-    // if (id == "yearexpiry") setYearValidity(value);
-  };
-
-  const handleClick = () => {
-    const {cardName,address,cardNumber,cvv,monthValidity,yearValidity}=formData;
-    setFormData((obj)=>({
-      ...obj,
-      INTIALSTATE,
-    }))
-    if (
-      cardName &&
-      cardNumber &&
-      address &&
-      cvv &&
-      monthValidity &&
-      yearValidity
-    ) {
-      setCart([]);
-      setOpen(true);
-    } else {
-      setError(true);
-    }
+  const handleSubmit = (event) => {
+    event.preventDefault();
     
-  };
-  const DoneBtn = () => {
-    navigate("/");
-  };
+    // Validation logic
+    const newErrors = {};
 
-  const {cardName,address,cardNumber,cvv,monthValidity,yearValidity}=formData;
+    if (cardName.trim() === '' || cardName.length<3 ) {
+        newErrors.name = 'Name is required.';
+    }
+    if(address.trim()==='' || address.length<6){
+      newErrors.address = 'Address is required.';
+    }
+    if (cvv.trim() === '' || cvv.length!=3) {
+        newErrors.cvv = 'Invalid CVV.';
+    }
+
+    if (cardNumber.trim() === '' || cardNumber.length!=16) {
+        newErrors.cardNumber = 'Credit card number is required.';
+    }
+
+    if (!monthValidity) {
+        newErrors.monthValidity = 'Required Expiration Month(MM).';
+    }
+    if (!yearValidity) {
+      newErrors.yearValidity = 'Required Expiration Year(YY).';
+  }
+
+    setErrors(newErrors);
+
+    // If no errors, proceed with checkout
+    if (Object.keys(newErrors).length === 0) {
+        // Your checkout logic here
+        setCart([]);
+      setOpen(true);
+      setCardName("")
+  setAddress("")
+  setCardNumber("")
+  setCvv("")
+  setMonthValidity(""),
+  setYearValidity("")
+    }
+};
+const DoneBtn = () => {
+  navigate("/");
+};
+  // const handleClick = () => {
+  //   const {cardName,address,cardNumber,cvv,monthValidity,yearValidity}=formData;
+  //   setFormData((obj)=>({
+  //     ...obj,
+  //     INTIALSTATE,
+  //   }))
+  //   if (
+  //     cardName &&
+  //     cardNumber &&
+  //     address &&
+  //     cvv &&
+  //     monthValidity &&
+  //     yearValidity
+  //   ) {
+  //     
+  //   } else {
+  //     setError(true);
+  //   }
+    
+  // };
+  
+
+  // const {cardName,address,cardNumber,cvv,monthValidity,yearValidity}=formData;
   return (
     <>
       {open && (
@@ -109,11 +155,6 @@ console.log(formData);
 
         <Card variant="outlined" sx={{ mt: 2 }}>
           <CardContent>
-            {error && (
-              <p style={{ color: "red", fontStyle: "italic" }}>
-                all details are mendatory
-              </p>
-            )}
             <Box>
               <TextField
                 label="Name"
@@ -123,10 +164,10 @@ console.log(formData);
                 fullWidth
                 margin="normal"
                 value={cardName}
-                onChange={handleChange}
+                onChange={(e)=>setCardName(e.target.value)}
                 required
               />
-
+              {errors.cardName && <span className="error" style={{color:"red",font:"italic"}}>{errors.cardName}</span>}
               <TextField
                 label="Address"
                 id="address"
@@ -135,9 +176,9 @@ console.log(formData);
                 fullWidth
                 margin="normal"
                 value={address}
-                onChange={handleChange}
+                onChange={(e)=>setAddress(e.target.value)}
               />
-
+              {errors.address && <span className="error" style={{color:"red",font:"italic"}}>{errors.address}</span>}
               <TextField
                 label="Credit Card Number"
                 id="cardNumber"
@@ -148,9 +189,9 @@ console.log(formData);
                 type="number"
                 inputProps={{ maxLength: 16 }}
                 value={cardNumber}
-                onChange={handleChange}
+                onChange={(e)=>setCardNumber(e.target.value)}
               />
-
+              {errors.cardNumber && <span className="error" style={{color:"red",font:"italic"}}>{errors.cardNumber}</span>}
               <TextField
                 label="CVV"
                 id="cvv"
@@ -161,12 +202,27 @@ console.log(formData);
                 type="number"
                 inputProps={{ maxLength: 3 }}
                 value={cvv}
-                onChange={handleChange}
+                onChange={(e)=>setCvv(e.target.value)}
               />
-
+              {errors.cvv && <span className="error" style={{color:"red",font:"italic"}}>{errors.cvv}</span>}
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <TextField
+                <TextField
+          id="outlined-select-currency"
+          select
+          label="Select"
+          defaultValue="MM"
+          helperText="Please select Month"
+          value={monthValidity}
+                    onChange={(e)=>setMonthValidity(e.target.value)}
+        >
+          {month.map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </TextField>
+                  {/* <TextField
                     label="Expiry Month"
                     id="monthValidity"
                     name="monthValidity"
@@ -174,13 +230,28 @@ console.log(formData);
                     fullWidth
                     margin="normal"
                     type="number"
-                    inputProps={{ min: 1, max: 12 }}
-                    value={monthValidity}
-                    onChange={handleChange}
-                  />
+                    inputProps={{ max: 2 }}
+                    
+                  /> */}
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField
+        <TextField
+          id="outlined-select-currency"
+          select
+          label="Select"
+          defaultValue="MM"
+          helperText="Please select Month"
+          value={yearValidity}
+          onChange={(e)=>setYearValidity(e.target.value)}
+        >
+          {yearArray.map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+          </TextField>
+
+                  {/* <TextField
                     label="Expiry Year"
                     id="yearValidity"
                     name="yearValidity"
@@ -190,17 +261,19 @@ console.log(formData);
                     type="number"
                     inputProps={{ min: 2023 }}
                     value={yearValidity}
-                    onChange={handleChange}
-                  />
+                    onChange={(e)=>setYearValidity(e.target.value)}
+                  /> */}
                 </Grid>
               </Grid>
+              {errors.monthValidity && <span className="error" style={{color:"red",font:"italic"}}>{errors.monthValidity}</span>}
+              {errors.yearValidity && <span className="error" style={{color:"red",font:"italic"}}>{errors.yearValidity}</span>}
 
               <Button
                 variant="contained"
                 sx={{ bgcolor: "#F31559", mt: 2 }}
                 color="primary"
                 fullWidth
-                onClick={handleClick}
+                onClick={handleSubmit}
               >
                 Pay Now
               </Button>
@@ -211,3 +284,4 @@ console.log(formData);
     </>
   );
 }
+

@@ -12,7 +12,6 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
-
 import myntra from "../../assets/myntra.ico";
 import Badge from "@mui/material/Badge";
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -21,15 +20,16 @@ import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const pages = [];
 const settings = ["Cart", "Logout"];
 
 const categoryObj = {
-  men: "men's clothing",
-  women: "women's clothing",
-  electronics: "electronics",
-  jewelery: "jewelery",
+  men: "mens-shirts",
+  women: "womens-dresses",
+  electronics: "laptops",
+  jewelery: "groceries",
 };
 
 function NavBar1({
@@ -40,6 +40,7 @@ function NavBar1({
   loggedOut,
   loggedin,
 }) {
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -59,7 +60,9 @@ function NavBar1({
   };
 
   const handleClick = (e) => {
-    filterProducts(categoryObj[e.target.name]);
+    let filter = categoryObj[e.target.name]
+    // console.log(filter);
+    navigate(`/products/${filter}`);
   };
   const handlechange = (e) => {
     searchProduct(e.target.value);
@@ -145,7 +148,7 @@ function NavBar1({
               <MenuItem name="jewelery" onClick={handleClick}>
                 <Typography textAlign="center">
                   <Button onClick={handleClick} name="jewelery">
-                    JEWELERY
+                  GROCERIES
                   </Button>
                 </Typography>
               </MenuItem>
@@ -174,7 +177,7 @@ function NavBar1({
                 color: "black",
               }}
             >
-              WEMEN
+              WOMEN
             </Button>
             <Button
               onClick={handleClick}
@@ -186,7 +189,7 @@ function NavBar1({
                 color: "black",
               }}
             >
-              Jewelery
+              GROCERIES
             </Button>
             <Button
               onClick={handleClick}
@@ -198,7 +201,7 @@ function NavBar1({
                 color: "black",
               }}
             >
-              Electronics
+              ELECTRONICS
             </Button>
           </Box>
 
@@ -287,7 +290,8 @@ function NavBar1({
                       <Avatar alt="Remy Sharp" src={profilePhoto} />
                     )}
                   </IconButton>
-                  <p>Logout</p>
+                  {loggedin?<p>Logout</p>:<p onClick={()=>navigate("/login")}>logIn</p>}
+                  
                 </MenuItem>
               </Menu>
             

@@ -10,7 +10,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid,Box } from "@mui/material";
 
 const CartHome = ({
   deleteItem,
@@ -50,7 +50,8 @@ const CartHome = ({
           loggedOut={loggedOut}
           loggedin={loggedin}
         />
-        <section className="main-section">
+        <Box className="main-section" sx={{display:{xs:"block",sm:"grid",md:"grid",xl:"grid"}}}>
+          <div className="left-container">
           <Grid>
             {cart.length > 0 &&
               cart.map((ele) => (
@@ -64,13 +65,17 @@ const CartHome = ({
                   message={message}
                 />
               ))}
+              </Grid>
+              </div>
+              <div className="right-container">
             <CheckOutPage
               cart={cart}
               clearProducts={clearProducts}
               message={message}
             />
-          </Grid>
-        </section>
+            </div>
+          
+        </Box>
       </div>
     </>
   );

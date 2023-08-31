@@ -11,6 +11,9 @@ body{
     display: grid;
     margin-top: 20px;
     padding-left: 30px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
     grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))
 }
 
