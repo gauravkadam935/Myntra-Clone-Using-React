@@ -85,7 +85,7 @@ export default function PaymentForm({ setCart }) {
     }
     if (!yearValidity) {
       newErrors.yearValidity = 'Required Expiration Year(YY).';
-  }
+    }
 
     setErrors(newErrors);
 
