@@ -118,7 +118,11 @@ const Register = ({ userLoginArray }) => {
               autoComplete="name"
               autoFocus
             />
-            {errors.name && <span className="error" style={{color:"red",font:"italic"}}>{errors.name}</span>}
+            {errors.name && (
+              <span className="error" style={{ color: "red", font: "italic" }}>
+                {errors.name}
+              </span>
+            )}
             <TextField
               margin="normal"
               required
@@ -131,7 +135,11 @@ const Register = ({ userLoginArray }) => {
               autoComplete="email"
               autoFocus
             />
-            {errors.email && <span className="error" style={{color:"red",font:"italic"}}>{errors.email}</span>}
+            {errors.email && (
+              <span className="error" style={{ color: "red", font: "italic" }}>
+                {errors.email}
+              </span>
+            )}
             <TextField
               margin="normal"
               required
@@ -144,10 +152,14 @@ const Register = ({ userLoginArray }) => {
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
             />
-            {errors.password && <span className="error" style={{color:"red",font:"italic"}}>{errors.password}</span>}
+            {errors.password && (
+              <span className="error" style={{ color: "red", font: "italic" }}>
+                {errors.password}
+              </span>
+            )}
             {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              label="Remember me" 
             /> */}
             <Button
               fullWidth
